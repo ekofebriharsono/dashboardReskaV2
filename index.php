@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+if($_SESSION['id'] == ''){
+  header("Location: login.php?error='belum_login'");
+}else{ 
+  
+
+  ?>
+
+
+
 <!DOCTYPE html>
 <html>
 
@@ -305,5 +317,7 @@ var chart = new Chart(ctx1, {
 });
   </script>
 </body>
-
+<?php 
+}
+?>
 </html>

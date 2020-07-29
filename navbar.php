@@ -22,11 +22,11 @@
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
           <a class="nav-link d-none d-sm-inline-block" data-toggle="dropdown" href="#">
-            <i class="far">Maseko</i>
+            <i class="far"><?php echo $_SESSION['nama']; ?></i>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">Logout</a>
+            <a href="proses/logout.php" class="dropdown-item dropdown-footer">Logout</a>
           </div>
         </li>
       </ul>
