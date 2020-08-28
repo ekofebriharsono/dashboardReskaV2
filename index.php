@@ -323,6 +323,13 @@ $con->close();
               <canvas id="myChart1" ></canvas>
             </div>
 
+            <div class="col-lg-6 col-6">
+              <canvas id="wilayah1" ></canvas>
+            </div>
+            <div class="col-lg-6 col-6">
+              <canvas id="wilayah2" ></canvas>
+            </div>
+
           </div>
         </div>
           <!-- /.row (main row) -->
@@ -422,6 +429,61 @@ var chart = new Chart(ctx1, {
     // Configuration options go here
     options: {}
 });
+
+var ctx = document.getElementById( "wilayah1" );
+    ctx.height = 100;
+    var myChart = new Chart( ctx, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [
+                {
+                    label: "Wilayah 1",
+                    data: [10, 20.5, 15, 24, 25, 18, 20],
+                    borderColor: "rgba(0, 123, 255, 0.9)",
+                    borderWidth: "0",
+                    backgroundColor: "rgba(0, 123, 255, 0.5)"
+                            }
+                        ]
+        },
+        options: {
+            scales: {
+                yAxes: [ {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                                } ]
+            }
+        }
+    } );
+
+    var ctx = document.getElementById( "wilayah2" );
+    ctx.height = 100;
+    var myChart = new Chart( ctx, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [
+                {
+                    label: "Wilayah 1",
+                    data: [10, 20.5, 15, 24, 25, 18, 20],
+                    borderColor: "rgba(0, 123, 255, 0.9)",
+                    borderWidth: "0",
+                    backgroundColor: "rgba(0, 123, 255, 0.5)"
+                            }
+                        ]
+        },
+        options: {
+            scales: {
+                yAxes: [ {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                                } ]
+            }
+        }
+    } );
+
   </script>
 </body>
 <?php 
