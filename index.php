@@ -16,7 +16,7 @@ if($_SESSION['id'] == ''){
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Reska | Dashboard</title>
+  <title>Damartana | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -79,13 +79,120 @@ if($_SESSION['id'] == ''){
       <section class="content">
         <div class="container-fluid">
           <!-- Small boxes (Stat box) -->
+          <?php
+
+if(isset($_GET['lokasi'])){
+  if($_GET['lokasi'] == 'pgs'){
+    include 'proses/koneksi_pgs.php';
+} else if($_GET['lokasi'] == 'tuban'){
+    include 'proses/koneksi_tuban.php';
+} else {
+    include 'proses/koneksi.php';
+}
+
+}   else {
+  include 'proses/koneksi.php';
+}
+
+$motor = null;
+$mobil = null;
+$helm = null;
+$pendapatan = null;
+$masalah = null;
+$member = null;
+$kasir = null;
+$total = null;
+
+$tgl_start = null;
+$tgl_end = null;
+
+if(isset($_GET['tanggal_start']) && isset($_GET['tanggal_end'])){
+
+  if($_GET['tanggal_start'] !='' && $_GET['tanggal_end'] !='' ){
+    $tgl_start = $_GET['tanggal_start'];
+    $tgl_end = $_GET['tanggal_end'];
+    $sqlMotor = "select sum(biayatotal) as totalParkirMotor from t_parkir where status = 'S' and waktu_out BETWEEN cast('$tgl_start' as date) and cast('$tgl_end' as date)";
+    $sqlMobil = "select sum(biayatotal) as totalParkirMobil from t_parkir where status = 'B' and waktu_out BETWEEN cast('$tgl_start' as date) and cast('$tgl_end' as date)";
+  } else {
+    $sqlMotor = "select sum(biayatotal) as totalParkirMotor from t_parkir where status = 'S'";
+    $sqlMobil = "select sum(biayatotal) as totalParkirMobil from t_parkir where status = 'B'";
+  }
+ 
+} else {
+  $sqlMotor = "select sum(biayatotal) as totalParkirMotor from t_parkir where status = 'S'";
+  $sqlMobil = "select sum(biayatotal) as totalParkirMobil from t_parkir where status = 'B'";
+}
+
+
+$sqlParkirMotor = $sqlMotor;
+$resParkirMotor = mysqli_query($con,$sqlParkirMotor);
+$rowParkirMotor = mysqli_fetch_array($resParkirMotor);
+
+$sqlParkirMobil = $sqlMobil;
+$resParkirMobil = mysqli_query($con,$sqlParkirMobil);
+$rowParkirMobil = mysqli_fetch_array($resParkirMobil);
+
+$motor = $rowParkirMotor['totalParkirMotor'];
+$mobil = $rowParkirMobil['totalParkirMobil'];
+
+if($motor == null){
+  $motor = 0;
+}
+if($mobil == null){
+  $mobil = 0;
+}
+if($helm == null){
+  $helm = 0;
+}
+if($masalah == null){
+  $masalah = 0;
+}
+if($member == null){
+  $member = 0;
+}
+if($kasir == null){
+  $kasir = 0;
+}
+
+$pendapatan = $mobil + $motor + $helm;
+$total = $pendapatan + $masalah + $member + $kasir;
+
+$con->close();
+
+
+?>
+
+          <form action="index.php" method="get">
+          <label for="cars">Pilih Server:</label>
+
+          <select name="lokasi" id="cars">
+            <option value="ps_turi">Pasar Turi</option>
+            <option value="pgs">PGS</option>
+            <option value="tuban">Tuban</option>
+          </select>
+          <br>
+          <label for="cars">Pilih Tanggal:</label>
+
+          <input type="date" name="tanggal_start"/>
+
+          <label for="cars">Sampai</label>
+
+          <input type="date" name="tanggal_end"/>
+
+          <input type="submit" value="filter">
+          
+          </form>
+          <form action="index.php" method="post">
+          <input type="submit" value="reset">
+          </form>
+          <br>
           <div class="row">
             <div class="col-lg-3 col-6">
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3><sup style="font-size: 20px">Rp. </sup>150</h3>
-
+                  <!-- <h3><sup style="font-size: 20px">Rp. </sup>29,012,000</h3> -->
+                  <h3><sup style="font-size: 20px">Rp. </sup><?php echo number_format($motor,0,',',','); ?></h3>
                   <p>Pendapatan Motor</p>
                 </div>
                 <div class="icon">
@@ -99,7 +206,7 @@ if($_SESSION['id'] == ''){
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3><sup style="font-size: 20px">Rp. </sup>53</h3>
+                  <h3><sup style="font-size: 20px">Rp. </sup><?php echo number_format($mobil,0,',',','); ?></h3>
 
                   <p>Pendapatan Mobil</p>
                 </div>
@@ -114,7 +221,7 @@ if($_SESSION['id'] == ''){
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3><sup style="font-size: 20px">Rp. </sup>44</h3>
+                  <h3><sup style="font-size: 20px">Rp. </sup><?php echo number_format($helm,0,',',','); ?></h3>
 
                   <p>Pendapatan Helm</p>
                 </div>
@@ -129,7 +236,7 @@ if($_SESSION['id'] == ''){
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3><sup style="font-size: 20px">Rp. </sup>65</h3>
+                  <h3><sup style="font-size: 20px">Rp. </sup><?php echo number_format($pendapatan,0,',',','); ?></h3>
 
                   <p>Pendapatan</p>
                 </div>
@@ -146,7 +253,7 @@ if($_SESSION['id'] == ''){
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3><sup style="font-size: 20px">Rp. </sup>150</h3>
+                  <h3><sup style="font-size: 20px">Rp. </sup><?php echo number_format($masalah,0,',',','); ?></h3>
 
                   <p>Tiket Masalah</p>
                 </div>
@@ -161,7 +268,7 @@ if($_SESSION['id'] == ''){
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3><sup style="font-size: 20px">Rp. </sup>53</h3>
+                  <h3><sup style="font-size: 20px">Rp. </sup><?php echo number_format($member,0,',',','); ?></h3>
 
                   <p>Pendapatan Member</p>
                 </div>
@@ -176,7 +283,7 @@ if($_SESSION['id'] == ''){
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3><sup style="font-size: 20px">Rp. </sup>44</h3>
+                  <h3><sup style="font-size: 20px">Rp. </sup><?php echo number_format($kasir,0,',',','); ?></h3>
 
                   <p>(+-)Setoran Kasir</p>
                 </div>
@@ -191,7 +298,7 @@ if($_SESSION['id'] == ''){
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3><sup style="font-size: 20px">Rp. </sup>65</h3>
+                  <h3><sup style="font-size: 20px">Rp. </sup><?php echo number_format($total,0,',',','); ?></h3>
 
                   <p>Total Pendapatan</p>
                 </div>
