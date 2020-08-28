@@ -14,6 +14,8 @@ if($res){
 
     header("Location: ../login.php");
 
+} else {
+    header("Location: ../register.php?info=register_gagal");
 }
 
 ?>
