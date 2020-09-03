@@ -202,6 +202,8 @@ if($_SESSION['id'] == ''){
                           $resPendapatan1 = mysqli_query($con,$sqlPendapatan1);
                           $rowPendapatan1 = mysqli_fetch_array($resPendapatan1);
 
+                         
+
                           $sqlParkirMotor = $sqlMotor;
                           $resParkirMotor = mysqli_query($con,$sqlParkirMotor);
                           $rowParkirMotor = mysqli_fetch_array($resParkirMotor);
@@ -245,9 +247,15 @@ if($_SESSION['id'] == ''){
                           $sqlMasalah1 = $sqlMasalah;
                           $resMasalah = mysqli_query($con,$sqlMasalah1);
                           $resMasalah1 = mysqli_query($con,$sqlMasalah1);
+                          $resMasalah2 = mysqli_query($con,$sqlMasalah1);
                           $rowMasalah = mysqli_fetch_array($resMasalah);
+                          
 
                           $resKendaraanMasukPerjam = mysqli_query($con,$sqlKendaraanMasukPerjam);
+                          
+                          while($row = mysqli_fetch_array($resMasalah2)){
+                            $masalah = $masalah + $row['jumlah_tiketmasalah'];
+                          }
 
                           $motor = $rowParkirMotor['totalParkirMotor'];
                           $mobil = $rowParkirMobil1['totalParkirMobil'];
@@ -426,7 +434,7 @@ if($_SESSION['id'] == ''){
                           }
 
                           $pendapatan = $mobil + $motor + $helm;
-                          $total = $pendapatan + $masalah + $member + $kasir;
+                          $total = $pendapatan  + $member + $kasir - $masalah;
 
                           $con->close();
 
@@ -520,8 +528,15 @@ if($_SESSION['id'] == ''){
                             $resMasalah = mysqli_query($con,$sqlMasalah1);
                             $resMasalah1 = mysqli_query($con,$sqlMasalah1);
                             $rowMasalah = mysqli_fetch_array($resMasalah);
+                            $resMasalah2 = mysqli_query($con,$sqlMasalah1);
 
                             $resKendaraanMasukPerjam = mysqli_query($con,$sqlKendaraanMasukPerjam);
+
+                            
+                         
+                            while($row = mysqli_fetch_array($resMasalah2)){
+                            $masalah = $masalah + $row['jumlah_tiketmasalah'];
+                          }
 
                             $motor = $motor + $rowParkirMotor['totalParkirMotor'];
                             $mobil = $mobil + $rowParkirMobil1['totalParkirMobil'];
@@ -698,7 +713,7 @@ if($_SESSION['id'] == ''){
                             }
                             
                             $pendapatan = $mobil + $motor + $helm;
-                            $total = $pendapatan + $masalah + $member + $kasir;
+                            $total = $pendapatan  + $member + $kasir - $masalah;
                             
                             if($i == 1){
                               $TOTAL_TURI = $total;
@@ -737,7 +752,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -752,7 +767,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -767,7 +782,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -782,7 +797,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -799,7 +814,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -814,7 +829,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -829,7 +844,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -844,7 +859,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -872,7 +887,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -887,7 +902,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -902,7 +917,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
@@ -917,7 +932,7 @@ if($_SESSION['id'] == ''){
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
               </div>
             </div>
             <!-- ./col -->
